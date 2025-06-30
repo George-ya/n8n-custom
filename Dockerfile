@@ -1,19 +1,16 @@
-# Базовый образ
+# Используем официальный образ n8n как основу
 FROM n8nio/n8n:latest
 
-# Устанавливаем рабочую директорию в специальную папку n8n
-# Это самая важная строка
-WORKDIR /home/node/.n8n
-
-# Переключаемся на root для установки
+# Переключаемся на пользователя root для установки
 USER root
 
-# Устанавливаем пакет. Так как мы в /home/node/.n8n,
-# он создаст здесь папку node_modules, которую n8n увидит
-RUN npm install @tavily/n8n-nodes-tavily
+# Устанавливаем git, так как он нужен для скачивания с GitHub
+RUN apk add --no-cache git
 
-# ВАЖНО: Возвращаем права на всю папку .n8n пользователю node
-RUN chown -R node:node /home/node/.n8n
+# Скачиваем исходный код ноды с GitHub, переходим в папку и "привязываем" ее
+RUN git clone https://github.com/tavily-ai/tavily-n8n-node.git \
+    && cd tavily-n8n-node \
+    && npm link
 
-# Возвращаемся к пользователю node для запуска
+# Возвращаемся к безопасному пользователю node для запуска
 USER node
