@@ -21,3 +21,5 @@ RUN npm install --production
 
 # 8. Возвращаемся к безопасному пользователю для запуска n8n
 USER node
+
+# redeploy 1
