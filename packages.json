@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@tavily/n8n-nodes-tavily": "*"
+  }
+}
